@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import CustomAppBar from '../components/CustomAppBar';
 import Footerbar from '../components/FooterBar';
 import { AppWrapper, ContentWrapper } from './Homepage.styles';
@@ -9,7 +10,9 @@ const HomePage = () => {
     <AppWrapper>
       <CustomAppBar />
       <ContentWrapper>
-        <Stations />
+        <Routes>
+          <Route path="/" element={<Stations />}/>
+        </Routes>
       </ContentWrapper>
       <Footerbar />
     </AppWrapper>
