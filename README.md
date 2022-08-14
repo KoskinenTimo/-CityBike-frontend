@@ -17,11 +17,11 @@ List journeys = DONE
   If you don't implement pagination, use some hard-coded limit for the list length because showing several million rows would make any browser choke = DONE  
   For each journey show departure and return stations, covered distance in kilometers and duration in minutes = DONE  
   Pagination = DONE  
-  Ordering per column = TODO?
+  Ordering per column = TODO?  
   Searching = DONE  
   Filtering = DONE  
 
-List all the stations = DONE  
+List all the stations = DONE    
     Pagination = DONE  
     Searching = DONE  
 
