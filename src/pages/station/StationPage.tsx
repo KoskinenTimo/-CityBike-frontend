@@ -78,7 +78,7 @@ const StationPage = () => {
       </Grid>
       <Button color="secondary" onClick={() => navigate("/stations")}>Go Back</Button>
     </StationWrapper>
-  )
+  );
 };
 
 export default StationPage;

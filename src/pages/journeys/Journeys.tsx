@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Filter, GetJourneyProps, JourneysResponsePage, Page, Rows } from "../../common/types";
+import { JourneysResponsePage } from "../../common/types";
 import { TableCellTitle } from "../../components/TableCellTitle";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
