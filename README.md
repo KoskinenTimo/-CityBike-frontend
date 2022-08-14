@@ -1,46 +1,46 @@
-# Getting Started with Create React App
+Pre assignment / Learning project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend for citybike app. The app is a pre assignment and learning project to create my first Java spring boot backend.  
+You can find the frontend in github: https://github.com/KoskinenTimo/CityBike-backend/
 
-## Available Scripts
+To start the app clone it to a folder you desire and in your editor terminal: npm install && npm start  
+App will start at http://localhost:3000  
+// TODO if time, docker container and build serving
 
-In the project directory, you can run:
+Features list from pre-assigment, if marked with TODO?, feature can be done if time:  
+Import data from the CSV files to a database or in-memory storage = DONE  
+Validate data before importing  = DONE  
+Don't import journeys that lasted for less than ten seconds = DONE  
+Don't import journeys that covered distances shorter than 10 meters = DONE  
+  
+List journeys = DONE  
+  If you don't implement pagination, use some hard-coded limit for the list length because showing several million rows would make any browser choke = DONE  
+  For each journey show departure and return stations, covered distance in kilometers and duration in minutes = DONE  
+  Pagination = DONE  
+  Ordering per column = TODO?
+  Searching = DONE  
+  Filtering = DONE  
 
-### `npm start`
+List all the stations = DONE  
+    Pagination = DONE  
+    Searching = DONE  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Single station view = DONE  
+    Station name = DONE  
+    Station address = DONE  
+    Total number of journeys starting from the station = DONE  
+    Total number of journeys ending at the station = DONE  
+    Station location on the map = TODO?  
+    The average distance of a journey starting from the station = TODO?  
+    The average distance of a journey ending at the station = TODO?  
+    Top 5 most popular return stations for journeys starting from the station = TODO?  
+    Top 5 most popular departure stations for journeys ending at the station = TODO?  
+    Ability to filter all the calculations per month = TODO?  
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Endpoints to store new journeys data or new bicycle stations = TODO?  
+Running backend in Docker = TODO?  
+Running backend in Cloud = TODO?  
+Implement E2E tests = TODO?  
+Create UI for adding journeys or bicycle stations = TODO?  
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
