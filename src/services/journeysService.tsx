@@ -1,23 +1,26 @@
-import axios from "axios"
-import { Filter, JourneysResponsePage, Page, Rows } from "../common/types"
-
-const restaurantsClient = axios.create({
-  baseURL: 'http://localhost:8080'
-})
+import { GetJourneyProps, JourneysResponsePage } from "../common/types";
+import { bikeAppApiClient } from "./bikeAppApiClient";
 
 
-export const getJourneys = async (
-  page: Page = null,
-  journeysPerPage: Rows = null,
-  filter: Filter = null
-  ) => {
-    return await restaurantsClient.get<JourneysResponsePage>(
+export const getJourneys = async ({
+  page,
+  journeysPerPage,
+  filter,
+  departureStationId=null,
+  returnStationId=null
+  }: GetJourneyProps) => {
+    return await bikeAppApiClient.get<JourneysResponsePage>(
       '/journeys',
       { 
         params: {
           ...(page ? { page } : []),
           ...(journeysPerPage ? { journeysPerPage } : []),
-          ...(filter ? { filter } : [])
+          ...(filter ? { filter } : []),
+          ...(departureStationId ? { departureStationId } : []),
+          ...(returnStationId ? { returnStationId } : []),
         }
-      })
-}
+      });
+};
+
+
+

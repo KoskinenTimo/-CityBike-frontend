@@ -72,3 +72,11 @@ export type JourneysResponsePage = ResponsePage & {
 export type TableCellProps = {
   text: string | number
 }
+
+export type GetJourneyProps= {
+  page: Page,
+  journeysPerPage: Rows,
+  filter: Filter,
+  departureStationId: number | null,
+  returnStationId: number | null
+}

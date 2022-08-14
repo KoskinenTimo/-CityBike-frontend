@@ -25,7 +25,7 @@ const Home = () => {
         Frontend uses MUI components as much as possible and styling is done via styled-components mainly. Some component specific styles have been added when it made sense, in others words only 1 property was changed.
       </Typography>
     </HomeWrapper>
-  )
-}
+  );
+};
 
 export default Home;

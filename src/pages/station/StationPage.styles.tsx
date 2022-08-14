@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 
-
-export const HomeWrapper = styled.div`
+export const StationWrapper = styled.div`
   max-width: 50%;
   margin: auto;
 `;

@@ -7,6 +7,6 @@ const Footerbar = () => (
       This project was created for pre assignment and learning targets
     </FooterText>
   </CustomFooterBox>
-)
+);
 
 export default Footerbar;

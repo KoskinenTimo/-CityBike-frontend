@@ -1,30 +1,35 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Filter, JourneysResponsePage, Page, Rows } from "../../common/types";
+import { Filter, GetJourneyProps, JourneysResponsePage, Page, Rows } from "../../common/types";
 import { TableCellTitle } from "../../components/TableCellTitle";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
 import { StationsTextField } from "../stations/Stations.styles";
 
+export type JourneysPageFetchParams = {
+  page: number | null,
+  journeysPerPage: number | null,
+  filter: string | null
+}
 
 const Journeys = () => {
   const [journeysPage, setJourneysPage] = useState({} as JourneysResponsePage);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [journeysPerPage, setJourneysPerPage] = useState(20);
   const [filterInput, setFilterInput] = useState('');
   const [filter,setFilter] = useState('');
 
   useEffect(() => {
-    window.document.title = "Stations"
-  }, [])
+    window.document.title = "Stations";
+  }, []);
 
   useEffect(() => {
-    fetchJourneys(page,rowsPerPage,filter)
-  },[])
+    fetchJourneys({page,journeysPerPage,filter});
+  },[]);
   
   useEffect(() => {
-    fetchJourneys(page,rowsPerPage,filter);    
-  },[page,rowsPerPage,filter]);
+    fetchJourneys({page,journeysPerPage,filter});    
+  },[page,journeysPerPage,filter]);
 
   useEffect(() => {
     if (filterInput.length > 2) {
@@ -32,36 +37,38 @@ const Journeys = () => {
     } else {
       setFilter('');
     }
-  },[filterInput])
+  },[filterInput]);
 
   const fetchJourneys = async (
-    page: Page = null,
-    rowsPerPage: Rows = null,
-    filter: Filter = null
+    { page, journeysPerPage, filter }: JourneysPageFetchParams
     ) => {
       try {        
-        const res = await getJourneys(page,rowsPerPage,filter);
+        const res = await getJourneys({
+          page,
+          journeysPerPage,
+          filter,
+          departureStationId: null,
+          returnStationId: null
+        });
         setJourneysPage(res.data);
-        console.log(res.data);
-        
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-  }
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
+    setJourneysPerPage(+event.target.value);
     setPage(0);
   };
 
   const handleFilterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterInput(event.target.value);
     setPage(0);
-  }
+  };
 
   return (
     <>
@@ -122,12 +129,12 @@ const Journeys = () => {
           rowsPerPageOptions={[20, 40, 60]}
           component="div"
           count={journeysPage.totalElements ? journeysPage.totalElements : 0}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={journeysPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
       </Paper></>
   );
-}
+};
 
 export default Journeys;

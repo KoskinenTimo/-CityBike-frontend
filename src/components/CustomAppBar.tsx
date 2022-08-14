@@ -30,7 +30,7 @@ const CustomAppBar = () => {
       </Link>
     </MUIAppBar>
 
-  )
-}
+  );
+};
 
 export default CustomAppBar;

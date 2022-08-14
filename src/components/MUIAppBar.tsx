@@ -17,5 +17,5 @@ export const MUIAppBar = ({ children }: any) => {
             
       </AppBar>
     </Box>
-  )
-}
+  );
+};

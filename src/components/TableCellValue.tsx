@@ -7,4 +7,4 @@ export const TableCellValue = ({ text }: TableCellProps) => (
   <TableCell align={"right"}>
     {text}
   </TableCell>
-)
+);
