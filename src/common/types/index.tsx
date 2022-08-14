@@ -4,6 +4,7 @@ export type Rows = number | null;
 
 export type Station = {
   id: number,
+  identifier: number,
   nimi: string,
   namn: string,
   name: string,
@@ -19,6 +20,17 @@ export type Station = {
     longitude: number,
     new: boolean
   }
+}
+
+export type Journey = {
+  id: number,
+  departureTimeStamp: number,
+  returnTimestamp: number,
+  departureStationId: Station
+  returnStationId: Station
+  distance: number,
+  duration: number,
+  new: boolean
 }
 
 export type ResponsePage = {
@@ -51,4 +63,12 @@ export type ResponsePage = {
 
 export type StationsResponsePage = ResponsePage & {
   content: Station[]
+}
+
+export type JourneysResponsePage = ResponsePage & {
+  content: Journey[]
+}
+
+export type TableCellProps = {
+  text: string | number
 }
