@@ -5,7 +5,7 @@ import { getStations } from "../../services/stationsService";
 import { StationsTextField } from "./Stations.styles";
 import { TableCellValue } from "../../components/TableCellValue";
 import { TableCellTitle } from "../../components/TableCellTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Stations = () => {
   const [stationsPage, setStationsPage] = useState({} as StationsResponsePage);

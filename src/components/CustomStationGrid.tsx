@@ -16,4 +16,4 @@ export const CustomStationGrid = ({ text }: CustomStationGridProps) => (
       </Typography>
     </ListItem>
   </Grid>
-)
+);
