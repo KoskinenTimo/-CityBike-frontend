@@ -1,19 +1,18 @@
-import { Button } from '@mui/material';
 import React from 'react';
-import { MUIAppBar } from '../components/MUIAppBar';
+import CustomAppBar from '../components/CustomAppBar';
+import Footerbar from '../components/FooterBar';
+import { AppWrapper, ContentWrapper } from './Homepage.styles';
+import Stations from './stations/Stations';
 
 const HomePage = () => {
   return (
-    <div>
-      <MUIAppBar>
-        <Button
-          onClick={() => {}}
-          sx={{ my: 2, color: 'white', display: 'block' }}
-        >
-          Home
-        </Button>
-      </MUIAppBar>
-    </div>
+    <AppWrapper>
+      <CustomAppBar />
+      <ContentWrapper>
+        <Stations />
+      </ContentWrapper>
+      <Footerbar />
+    </AppWrapper>
   )
 }
 

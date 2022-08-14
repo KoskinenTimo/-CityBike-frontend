@@ -1,7 +1,6 @@
+import { styled, Toolbar } from "@mui/material";
 
-import { Toolbar } from "@mui/material";
-import styled from "styled-components";
 
 export const ToolbarWrapper = styled(Toolbar)`
-  margin: auto;
+  margin: 0 auto;
 `
