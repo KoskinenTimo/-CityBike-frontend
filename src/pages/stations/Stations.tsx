@@ -3,12 +3,15 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePag
 import { Filter, Page, Rows, StationsResponsePage } from "../../common/types";
 import { getStations } from "../../services/stationsService";
 import { StationsTextField } from "./Stations.styles";
+import { TableCellValue } from "../../components/TableCellValue";
+import { TableCellTitle } from "../../components/TableCellTitle";
 
 const Stations = () => {
   const [stationsPage, setStationsPage] = useState({} as StationsResponsePage);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
+
   useEffect(() => {
     window.document.title = "Stations"
   }, [])
@@ -74,42 +77,12 @@ const Stations = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Nimi"}
-                </TableCell>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Namn"}
-                </TableCell>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Name"}
-                </TableCell>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Osoite"}
-                </TableCell>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Adress"}
-                </TableCell>
-                <TableCell
-                  align={"right"}
-                  style={{ top: 57, minWidth: 80 }}
-                >
-                  {"Kapasiteetti"}
-                </TableCell>
+                <TableCellTitle text={"Nimi"} />
+                <TableCellTitle text={"Namn"} />
+                <TableCellTitle text={"Name"} />
+                <TableCellTitle text={"Osoite"} />
+                <TableCellTitle text={"Adress"} />
+                <TableCellTitle text={"Kapasiteetti"} />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -117,26 +90,12 @@ const Stations = () => {
                 .map(station => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={1} key={station.id}>
-
-                      <TableCell align={"right"}>
-                        {station.nimi}
-                      </TableCell>
-                      <TableCell align={"right"}>
-                        {station.namn}
-                      </TableCell>
-                      <TableCell align={"right"}>
-                        {station.name}
-                      </TableCell>
-                      <TableCell align={"right"}>
-                        {station.osoite}
-                      </TableCell>
-                      <TableCell align={"right"}>
-                        {station.adress}
-                      </TableCell>
-                      <TableCell align={"right"}>
-                        {station.kapasiteetit}
-                      </TableCell>
-
+                      <TableCellValue text={station.nimi} />
+                      <TableCellValue text={station.namn} />
+                      <TableCellValue text={station.name} />
+                      <TableCellValue text={station.osoite} />
+                      <TableCellValue text={station.adress} />
+                      <TableCellValue text={station.kapasiteetit} />
                     </TableRow>
                   );
                 })}
