@@ -13,12 +13,12 @@ const Stations = () => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    window.document.title = "Stations"
-  }, [])
+    window.document.title = "Stations";
+  }, []);
 
   useEffect(() => {
-    fetchStations()
-  },[])
+    fetchStations();
+  },[]);
 
   
   useEffect(() => {
@@ -33,7 +33,7 @@ const Stations = () => {
     getStations(page,rowsPerPage,filter)
       .then(res => setStationsPage(res.data))
       .catch(err => console.error(err));
-  }
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -45,8 +45,8 @@ const Stations = () => {
   };
 
   const handleFilterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter(event.target.value)
-  }
+    setFilter(event.target.value);
+  };
 
   return (
     <>
@@ -112,6 +112,6 @@ const Stations = () => {
           onRowsPerPageChange={handleChangeRowsPerPage} />
       </Paper></>
   );
-}
+};
 
 export default Stations;

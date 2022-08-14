@@ -7,8 +7,8 @@ export const CustomFooterBox = styled.div`
   background-color: #9c27b0;
   padding: 0;
   margin-top: auto;
-`
+`;
 
 export const FooterText = styled.p`
   color: white;
-`
+`;

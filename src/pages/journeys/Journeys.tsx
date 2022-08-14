@@ -15,12 +15,12 @@ const Journeys = () => {
   const [filter,setFilter] = useState('');
 
   useEffect(() => {
-    window.document.title = "Stations"
-  }, [])
+    window.document.title = "Stations";
+  }, []);
 
   useEffect(() => {
-    fetchJourneys(page,rowsPerPage,filter)
-  },[])
+    fetchJourneys(page,rowsPerPage,filter);
+  },[]);
   
   useEffect(() => {
     fetchJourneys(page,rowsPerPage,filter);    
@@ -32,7 +32,7 @@ const Journeys = () => {
     } else {
       setFilter('');
     }
-  },[filterInput])
+  },[filterInput]);
 
   const fetchJourneys = async (
     page: Page = null,
@@ -45,9 +45,9 @@ const Journeys = () => {
         console.log(res.data);
         
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-  }
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -61,7 +61,7 @@ const Journeys = () => {
   const handleFilterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterInput(event.target.value);
     setPage(0);
-  }
+  };
 
   return (
     <>
@@ -128,6 +128,6 @@ const Journeys = () => {
           onRowsPerPageChange={handleChangeRowsPerPage} />
       </Paper></>
   );
-}
+};
 
 export default Journeys;

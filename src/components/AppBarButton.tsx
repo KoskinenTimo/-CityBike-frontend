@@ -10,4 +10,4 @@ export const AppBarButton = ({ children, ...other }: any) => (
   >
     {children}
   </Button>
-)
+);

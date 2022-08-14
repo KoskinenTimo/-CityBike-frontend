@@ -20,7 +20,7 @@ const HomePage = () => {
       </ContentWrapper>
       <Footerbar />
     </AppWrapper>
-  )
-}
+  );
+};
 
 export default HomePage;

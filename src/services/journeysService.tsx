@@ -1,9 +1,9 @@
-import axios from "axios"
-import { Filter, JourneysResponsePage, Page, Rows } from "../common/types"
+import axios from "axios";
+import { Filter, JourneysResponsePage, Page, Rows } from "../common/types";
 
 const restaurantsClient = axios.create({
   baseURL: 'http://localhost:8080'
-})
+});
 
 
 export const getJourneys = async (
@@ -19,5 +19,5 @@ export const getJourneys = async (
           ...(journeysPerPage ? { journeysPerPage } : []),
           ...(filter ? { filter } : [])
         }
-      })
-}
+      });
+};

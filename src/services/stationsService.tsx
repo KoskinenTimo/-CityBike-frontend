@@ -1,9 +1,9 @@
-import axios from "axios"
-import { Filter, Page, Rows, StationsResponsePage } from "../common/types"
+import axios from "axios";
+import { Filter, Page, Rows, StationsResponsePage } from "../common/types";
 
 const restaurantsClient = axios.create({
   baseURL: 'http://localhost:8080'
-})
+});
 
 
 export const getStations = async (
@@ -19,5 +19,5 @@ export const getStations = async (
         ...(stationsPerPage ? { stationsPerPage } : []),
         ...(filter ? { filter } : [])
       }
-    })
-}
+    });
+};
