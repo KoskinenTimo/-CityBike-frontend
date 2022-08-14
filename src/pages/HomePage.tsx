@@ -6,6 +6,7 @@ import { AppWrapper, ContentWrapper } from './Homepage.styles';
 import Journeys from './journeys/Journeys';
 import Stations from './stations/Stations';
 import Home from './home/Home';
+import StationPage from './station/StationPage';
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
       <CustomAppBar />
       <ContentWrapper>
         <Routes>
+          <Route path="/stations/:id" element={<StationPage />}/>
           <Route path="/stations" element={<Stations />}/>
           <Route path="/journeys" element={<Journeys />} />
           <Route path="/" element={<Home />} />

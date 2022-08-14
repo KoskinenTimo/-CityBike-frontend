@@ -5,12 +5,14 @@ import { getStations } from "../../services/stationsService";
 import { StationsTextField } from "./Stations.styles";
 import { TableCellValue } from "../../components/TableCellValue";
 import { TableCellTitle } from "../../components/TableCellTitle";
+import { Link, useNavigate } from "react-router-dom";
 
 const Stations = () => {
   const [stationsPage, setStationsPage] = useState({} as StationsResponsePage);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.document.title = "Stations";
@@ -89,14 +91,16 @@ const Stations = () => {
               {(stationsPage.content && stationsPage.content.length) && stationsPage.content
                 .map(station => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={1} key={station.id}>
-                      <TableCellValue text={station.nimi} />
-                      <TableCellValue text={station.namn} />
-                      <TableCellValue text={station.name} />
-                      <TableCellValue text={station.osoite} />
-                      <TableCellValue text={station.adress} />
-                      <TableCellValue text={station.kapasiteetit} />
-                    </TableRow>
+                    
+                      <TableRow hover onClick={() => navigate(`/stations/${station.identifier}`)} role="checkbox" tabIndex={1} key={station.id}>
+                        <TableCellValue text={station.nimi} />
+                        <TableCellValue text={station.namn} />
+                        <TableCellValue text={station.name} />
+                        <TableCellValue text={station.osoite} />
+                        <TableCellValue text={station.adress} />
+                        <TableCellValue text={station.kapasiteetit} />
+                      </TableRow>
+                    
                   );
                 })}
             </TableBody>

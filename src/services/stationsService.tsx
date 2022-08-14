@@ -1,9 +1,5 @@
-import axios from "axios";
-import { Filter, Page, Rows, StationsResponsePage } from "../common/types";
-
-const restaurantsClient = axios.create({
-  baseURL: 'http://localhost:8080'
-});
+import { Filter, Page, Rows, Station, StationsResponsePage } from "../common/types";
+import { bikeAppApiClient } from "./bikeAppApiClient";
 
 
 export const getStations = async (
@@ -11,7 +7,7 @@ export const getStations = async (
   stationsPerPage: Rows = null,
   filter: Filter = null
   ) => {    
-  return await restaurantsClient.get<StationsResponsePage>(
+  return await bikeAppApiClient.get<StationsResponsePage>(
     '/stations',
     { 
       params: {
@@ -20,4 +16,8 @@ export const getStations = async (
         ...(filter ? { filter } : [])
       }
     });
+};
+
+export const getOneStation = async (id: number) => {    
+  return await bikeAppApiClient.get<Station>(`/stations/${id}`);
 };
