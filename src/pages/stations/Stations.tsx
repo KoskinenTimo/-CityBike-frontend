@@ -25,16 +25,21 @@ const Stations = () => {
   
   useEffect(() => {
     fetchStations(page,rowsPerPage,filter);
-  },[page,rowsPerPage,filter]);
+  },[page,rowsPerPage]);
 
-  const fetchStations = (
+  const fetchStations = async (
     page: Page = null,
     rowsPerPage: Rows = null,
     filter: Filter = null
     ) => {
-    getStations(page,rowsPerPage,filter)
-      .then(res => setStationsPage(res.data))
-      .catch(err => console.error(err));
+      try {
+        const res = await getStations(page,rowsPerPage,filter);
+        setStationsPage(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+
+  
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -46,8 +51,9 @@ const Stations = () => {
     setPage(0);
   };
 
-  const handleFilterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(event.target.value);
+    await fetchStations(page,rowsPerPage,filter);
   };
 
   return (
@@ -57,10 +63,10 @@ const Stations = () => {
         gutterBottom component="div"
         color={"secondary"}
       >
-        Stations
+        Stations page
       </Typography>
       <StationsTextField
-        id="outlined-basic"
+        id="station-name"
         label="Name"
         variant="outlined"
         onChange={handleFilterInput} value={filter}
@@ -93,7 +99,7 @@ const Stations = () => {
                   return (
                     
                       <TableRow hover onClick={() => navigate(`/stations/${station.identifier}`)} role="checkbox" tabIndex={1} key={station.id}>
-                        <TableCellValue text={station.nimi} />
+                        <TableCellValue text={station.nimi}/>
                         <TableCellValue text={station.namn} />
                         <TableCellValue text={station.name} />
                         <TableCellValue text={station.osoite} />

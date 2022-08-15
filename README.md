@@ -1,7 +1,8 @@
 Pre assignment / Learning project
 
-This is the frontend for citybike app. The app is a pre assignment and learning project to create my first Java spring boot backend.  
-You can find the frontend in github: https://github.com/KoskinenTimo/CityBike-backend/
+This is the frontend for citybike app. The app is a pre assignment and learning project to create my first Java spring boot backend. Front 
+includes minimum needed visuals for the app to work, there was no time to polish anything due to too much time consumption with backend.  
+You can find the backend in github: https://github.com/KoskinenTimo/CityBike-backend/
 
 To start the app clone it to a folder you desire and in your editor terminal: npm install && npm start  
 App will start at http://localhost:3000  
@@ -37,10 +38,10 @@ Single station view = DONE
     Top 5 most popular departure stations for journeys ending at the station = TODO?  
     Ability to filter all the calculations per month = TODO?  
 
-Endpoints to store new journeys data or new bicycle stations = TODO?  
+Endpoints to store new journeys data or new bicycle stations = DONE
 Running backend in Docker = TODO?  
 Running backend in Cloud = TODO?  
-Implement E2E tests = TODO?  
+Implement E2E tests = DONE
 Create UI for adding journeys or bicycle stations = TODO?  
 
 

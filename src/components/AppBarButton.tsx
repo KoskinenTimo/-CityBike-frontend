@@ -7,6 +7,7 @@ export const AppBarButton = ({ children, ...other }: any) => (
   <Button
     sx={{ my: 2, color: 'white', display: 'block' }}
     {...other}
+    className="app-bar-button"
   >
     {children}
   </Button>
