@@ -1,5 +1,5 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import { JourneysResponsePage } from "../../common/types";
 import { TableCellTitle } from "../../components/TableCellTitle";
 import { TableCellValue } from "../../components/TableCellValue";
@@ -16,7 +16,6 @@ const Journeys = () => {
   const [journeysPage, setJourneysPage] = useState({} as JourneysResponsePage);
   const [page, setPage] = useState(0);
   const [journeysPerPage, setJourneysPerPage] = useState(20);
-  const [filterInput, setFilterInput] = useState('');
   const [filter,setFilter] = useState('');
 
   useEffect(() => {
@@ -29,15 +28,9 @@ const Journeys = () => {
   
   useEffect(() => {
     fetchJourneys({page,journeysPerPage,filter});    
-  },[page,journeysPerPage,filter]);
+  },[page,journeysPerPage]);
 
-  useEffect(() => {
-    if (filterInput.length > 2) {
-      setFilter(filterInput);
-    } else {
-      setFilter('');
-    }
-  },[filterInput]);
+
 
   const fetchJourneys = async (
     { page, journeysPerPage, filter }: JourneysPageFetchParams
@@ -65,9 +58,17 @@ const Journeys = () => {
     setPage(0);
   };
 
-  const handleFilterInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterInput(event.target.value);
+  const handleFilterInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(event.target.value);
+  };
+
+  const handleSearchSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setPage(0);
+    if (filter.length > 2) {
+      await fetchJourneys({ page, journeysPerPage, filter });
+      setFilter("");
+    }
   };
 
   return (
@@ -77,16 +78,20 @@ const Journeys = () => {
         gutterBottom component="div"
         color={"secondary"}
       >
-        Journeys
+        Journeys page
       </Typography>
-      <StationsTextField
-        id="outlined-basic"
-        label="Name"
-        placeholder="Atleast 3 characters"
-        variant="outlined"
-        onChange={handleFilterInput} value={filterInput}
-        color={"secondary"}      
-      />
+      <form onSubmit={(e) => handleSearchSubmit(e)}>
+        <StationsTextField
+          id="station-name"
+          label="Depature station"
+          placeholder="Atleast 3 characters"
+          variant="outlined"
+          onChange={handleFilterInput} value={filter}
+          color={"secondary"}      
+        />
+        <Button color="secondary" style={{fontSize:"1.3em"}} type="submit">Search</Button>
+      </form>
+
       <Paper sx={{ width: '100%' }}>
         <TableContainer style={{ maxHeight: "60vh"}}>
           <Table stickyHeader aria-label="sticky table">
