@@ -15,7 +15,9 @@ export const getStations = async (
         ...(stationsPerPage ? { stationsPerPage } : []),
         ...(filter ? { filter } : [])
       }
-    });
+    })
+    .then(res => res.data)
+    .catch(err => err);
 };
 
 export const getOneStation = async (id: number) => {    

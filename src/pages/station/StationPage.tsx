@@ -43,8 +43,8 @@ const StationPage = () => {
       filter: null,
       departureStationId: id,
       returnStationId: null
-    })
-      .then(res => setDepartsPage(res.data))
+    },undefined)
+      .then(res => setDepartsPage(res))
       .catch(err => console.error(err));
   };
 
@@ -55,8 +55,8 @@ const StationPage = () => {
       filter: null,
       departureStationId: null,
       returnStationId: id
-    })
-      .then(res => setReturnsPage(res.data))
+    },undefined)
+      .then(res => setReturnsPage(res))
       .catch(err => console.error(err));
   };
 
