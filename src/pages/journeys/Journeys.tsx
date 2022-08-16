@@ -1,5 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
-import { padding } from "@mui/system";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { LoadingIcon } from "../../common/icons";
@@ -8,7 +7,7 @@ import {
   GetJourneyProps,
   JourneysPerPageParam,
   JourneysResponsePage,
-  PageParam
+  PageParam,
 } from "../../common/types";
 import { TableCellTitle } from "../../components/TableCellTitle";
 import { TableCellValue } from "../../components/TableCellValue";
@@ -37,40 +36,32 @@ const Journeys = () => {
     window.document.title = "Stations";
   }, []);
 
-  useEffect(() => {
-    fetchJourneys();
-  },[
-    queryParams.journeysPerPage,
-    queryParams.page,
-    queryParams.filter
-  ]);
 
   const {
     data:journeysPage,
     refetch:fetchJourneys,
     isLoading, isFetching
   } = useQuery(
-    ["journeys"],
-    ({ signal }) => getJourneys(queryParams,signal),
+    ["journeys",queryParams], ({ signal }) =>  getJourneys(queryParams, signal),
     {
       enabled: false,
     }
   );
 
-  const handleSetQueryParams = (newProperties: GetJourneyProps) => {
-    setQueryParams(newProperties);
-  };
+  useEffect(() => {  
+    fetchJourneys();  
+  },[queryParams]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    handleSetQueryParams({ ...queryParams, page: newPage });
+    setQueryParams(prevState => ({ ...prevState, page: newPage }));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleSetQueryParams({ ...queryParams, journeysPerPage: +event.target.value });
+    setQueryParams(prevState => ({ ...prevState, journeysPerPage: +event.target.value }));
   };
 
   const handleFilterInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleSetQueryParams({ ...queryParams, page: 0, filter: event.target.value });
+    setQueryParams(prevState => ({ ...prevState, page: 0, filter: event.target.value }));
   };
 
   return (
@@ -85,10 +76,10 @@ const Journeys = () => {
       <StationsTextField
         id="station-name"
         label="Depature station"
-        placeholder="Atleast 3 characters"
         variant="outlined"
         onChange={handleFilterInput} value={queryParams.filter}
-        color={"secondary"}      
+        color={"secondary"}
+        style={{ marginBottom: "1em" }}    
       />
       {(isFetching && !!queryParams.filter?.length) &&
         <LoadingIcon style={{ padding: ".8em" }} size={{ height: "30px", width: "30px"}}/>
@@ -145,7 +136,7 @@ const Journeys = () => {
           component="div"
           count={journeysPage?.totalElements ? journeysPage?.totalElements : 0}
           rowsPerPage={queryParams.journeysPerPage ? queryParams.journeysPerPage : 0}
-          page={queryParams.page ? queryParams.page : 0}
+          page={(queryParams.page && !!journeysPage?.totalElements && journeysPage?.totalElements > 0) ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
       </Paper>
