@@ -6,7 +6,6 @@ import {
   FilterParam,
   GetJourneyProps,
   JourneysPerPageParam,
-  JourneysResponsePage,
   PageParam,
 } from "../../common/types";
 import { TableCellTitle } from "../../components/TableCellTitle";

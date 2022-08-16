@@ -8,7 +8,7 @@ export const MUIAppBar = ({ children }: any) => {
     <Box>
       <AppBar
         position="static"
-        color='secondary'
+        color='transparent'
       >
 
         <ToolbarWrapper>
