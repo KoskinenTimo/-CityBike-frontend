@@ -17,15 +17,10 @@ const Stations = () => {
   useEffect(() => {
     window.document.title = "Stations";
   }, []);
-
-  useEffect(() => {
-    fetchStations();
-  },[]);
-
   
   useEffect(() => {
     fetchStations(page,rowsPerPage,filter);
-  },[page,rowsPerPage]);
+  },[page,rowsPerPage,filter]);
 
   const fetchStations = async (
     page: Page = null,
@@ -37,9 +32,7 @@ const Stations = () => {
         setStationsPage(res);
       } catch (error) {
         console.error(error);
-      }
-
-  
+      }  
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -53,7 +46,6 @@ const Stations = () => {
 
   const handleFilterInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(event.target.value);
-    await fetchStations(page,rowsPerPage,filter);
   };
 
   return (

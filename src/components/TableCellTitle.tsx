@@ -1,13 +1,23 @@
 import React from "react";
-import { TableCell } from "@mui/material";
+import { TableCell, useTheme } from "@mui/material";
 import { TableCellProps } from "../common/types";
+import { ChevronDownIcon, ChevronUpIcon } from "../common/icons";
+import { ColumnTitleWrapper, CustomTableCell } from "./TableCellTitle.styles";
 
+export const TableCellTitle = ({ text }: TableCellProps) => {
+  const theme = useTheme();
 
-export const TableCellTitle = ({ text }: TableCellProps) => (
-  <TableCell
-    align={"right"}
-    style={{ top: 57, minWidth: 80 }}
-  >
+  return (
+  <CustomTableCell align={"left"} >
+    <ColumnTitleWrapper>
     {text}
-  </TableCell>
-);
+    <ChevronUpIcon
+      size={{ width:"15px", height:"15px"}}
+      style={{ color: theme.palette.secondary.dark, padding: "5px", marginLeft: "5px" }}/>
+    <ChevronDownIcon
+      size={{ width:"15px", height:"15px"}}
+      style={{ color: theme.palette.secondary.dark, padding: "5px", marginLeft: "5px" }}/>
+    </ColumnTitleWrapper>
+
+  </CustomTableCell>
+)};
