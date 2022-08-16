@@ -34,7 +34,7 @@ const Stations = () => {
     ) => {
       try {
         const res = await getStations(page,rowsPerPage,filter);
-        setStationsPage(res.data);
+        setStationsPage(res);
       } catch (error) {
         console.error(error);
       }

@@ -2,14 +2,16 @@ import { GetJourneyProps, JourneysResponsePage } from "../common/types";
 import { bikeAppApiClient } from "./bikeAppApiClient";
 
 
-export const getJourneys = async ({
+export const getJourneys = ({
   page,
   journeysPerPage,
   filter,
   departureStationId=null,
   returnStationId=null
-  }: GetJourneyProps) => {
-    return await bikeAppApiClient.get<JourneysResponsePage>(
+  }: GetJourneyProps,
+  signal: AbortSignal | undefined
+  ): Promise<JourneysResponsePage> => {    
+    return bikeAppApiClient.get(
       '/journeys',
       { 
         params: {
@@ -18,8 +20,9 @@ export const getJourneys = async ({
           ...(filter ? { filter } : []),
           ...(departureStationId ? { departureStationId } : []),
           ...(returnStationId ? { returnStationId } : []),
-        }
-      });
+        },
+        signal
+      }).then(res => res.data);
 };
 
 

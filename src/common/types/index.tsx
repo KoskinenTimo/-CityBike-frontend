@@ -2,6 +2,18 @@ export type Page = number | null;
 export type Filter = string | null;
 export type Rows = number | null;
 
+export type PageParam = {
+  page: Page,
+}
+
+export type JourneysPerPageParam = {
+  journeysPerPage: Rows
+}
+
+export type FilterParam = {
+  filter: Filter
+}
+
 export type Station = {
   id: number,
   identifier: number,
