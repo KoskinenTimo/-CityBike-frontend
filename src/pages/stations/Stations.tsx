@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
-import { Filter, Page, Rows, StationsResponsePage } from "../../common/types";
+import {
+  ColumnOrder,
+  Filter,
+  JourneyTableTitles,
+  Order,
+  Page,
+  Rows,
+  StationsResponsePage,
+  StationTableTitles
+} from "../../common/types";
 import { getStations } from "../../services/stationsService";
 import { StationsTextField } from "./Stations.styles";
 import { TableCellValue } from "../../components/TableCellValue";
@@ -12,6 +21,10 @@ const Stations = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
+  const [ sorting, setSorting ] = useState<ColumnOrder>({
+    columnName: JourneyTableTitles.DepartureStation,
+    order: Order.Ascending
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +61,11 @@ const Stations = () => {
     setFilter(event.target.value);
   };
 
+  const handleColumnTitleClick = (columnText:string) => {
+    console.log("test");
+    
+    
+  }
   return (
     <>
       <Typography 
@@ -77,12 +95,36 @@ const Stations = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCellTitle text={"Nimi"} />
-                <TableCellTitle text={"Namn"} />
-                <TableCellTitle text={"Name"} />
-                <TableCellTitle text={"Osoite"} />
-                <TableCellTitle text={"Adress"} />
-                <TableCellTitle text={"Kapasiteetti"} />
+                <TableCellTitle
+                  text={StationTableTitles.Nimi}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={StationTableTitles.Namn}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={StationTableTitles.Name}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={StationTableTitles.Osoite}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={StationTableTitles.Adress}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={StationTableTitles.Capacity}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
               </TableRow>
             </TableHead>
             <TableBody>

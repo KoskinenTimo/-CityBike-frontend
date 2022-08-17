@@ -81,14 +81,46 @@ export type JourneysResponsePage = ResponsePage & {
   content: Journey[]
 }
 
-export type TableCellProps = {
-  text: string | number
-}
-
-export type GetJourneyProps= {
+export type GetJourneyProps = {
   page: Page,
   journeysPerPage: Rows,
   filter: Filter,
   departureStationId: number | null,
   returnStationId: number | null
+}
+
+export enum Order {
+  Ascending = "ascending",
+  Descending = "descending"
+}
+
+export type ColumnOrder = {
+  columnName: string,
+  order: Order
+}
+
+export type TableCellValueProps = {
+  text: string | number
+}
+
+export enum JourneyTableTitles {
+  DepartureStation = "Departure station",
+  ReturnStation = "Return station",
+  Duration = "Duration (min)",
+  Distance = "Distance (km)"
+}
+
+export enum StationTableTitles {
+  Nimi = "Nimi",
+  Namn = "Namn",
+  Name = "Name",
+  Osoite = "Osoite",
+  Adress = "Adress",
+  Capacity = "Capacity"
+}
+
+export type TableCellTitleProps = {
+  text: string,
+  sorting: ColumnOrder,
+  handleClick: (columnText:string) => void
 }

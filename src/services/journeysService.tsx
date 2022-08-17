@@ -11,10 +11,7 @@ export const getJourneys = ({
   }: GetJourneyProps,
   signal: AbortSignal | undefined
   ): Promise<JourneysResponsePage> => {  
-    console.log(  page,
-      journeysPerPage,
-      filter);
-       
+    
     return bikeAppApiClient.get(
       '/journeys',
       { 
