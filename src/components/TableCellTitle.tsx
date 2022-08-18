@@ -15,10 +15,9 @@ export const TableCellTitle = ({ text, sorting, handleClick }: TableCellTitlePro
       align={"left"}
       className={isThisColumnTheSortingColumn ? "active" : ""}
       onClick={() => handleClick(text)}
+      
     >
-      <ColumnTitleWrapper
-        theme={theme}
-      >
+      <ColumnTitleWrapper>
         {text}
         {(isThisColumnTheSortingColumn && isDescendingOrder) &&
           <ChevronUpIcon

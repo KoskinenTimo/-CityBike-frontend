@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingIcon } from "../../common/icons";
+
 import {
-  FilterParam,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography 
+} from "@mui/material";
+import {
   GetJourneyProps,
-  JourneysPerPageParam,
-  PageParam,
   Journey,
   ColumnOrder,
   Order,
   JourneyTableTitles
 } from "../../common/types";
-import { TableCellTitle } from "../../components/TableCellTitle";
+import { LoadingIcon } from "../../common/icons";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
 import { StationsTextField } from "../stations/Stations.styles";
-import { TableLoadingIconWrapper } from "./Journeys.styles";
 import { compareNumbers, compareStrings } from "../../common/functions";
+import { TableTitles } from "../../components/TableTitles";
+import { TableSpinner } from "../../components/TableSpinner";
 
 export type JourneysPageFetchParams = {
   page: number | null,
   journeysPerPage: number | null,
   filter: string | null
 }
-
-export type JourneyFilterParams = PageParam | JourneysPerPageParam | FilterParam;
-
 
 const Journeys = () => {
   const [ journeyList, setJourneyList ] = useState<Journey[]>([]);
@@ -93,7 +98,6 @@ const Journeys = () => {
           sorting.order);
       });
     }
-
     if (sorting.columnName === JourneyTableTitles.ReturnStation) {
       journeys.sort((a,b) => {
         return compareStrings(
@@ -102,7 +106,6 @@ const Journeys = () => {
           sorting.order);
       });
     }
-    
     if (sorting.columnName === JourneyTableTitles.Duration) {
       journeys.sort((a,b) => {
         return compareNumbers(
@@ -111,7 +114,6 @@ const Journeys = () => {
           sorting.order);
       });
     }
-
     if (sorting.columnName === JourneyTableTitles.Distance) {
       journeys.sort((a,b) => {
         return compareNumbers(
@@ -172,40 +174,16 @@ const Journeys = () => {
                   Details
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCellTitle
-                  text={JourneyTableTitles.DepartureStation}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={JourneyTableTitles.ReturnStation}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={JourneyTableTitles.Duration}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={JourneyTableTitles.Distance}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-              </TableRow>
+              <TableTitles
+                titles={Object.values(JourneyTableTitles)}
+                handleClick={handleColumnTitleClick}
+                sorting={sorting} 
+              />
             </TableHead>
             <TableBody>
               {isLoading 
               ?
-                <tr>
-                  <TableLoadingIconWrapper colSpan={4}>
-                    <LoadingIcon
-                      style={{ position: "absolute", top: "50%" }}
-                      size={{ height: "50px", width: "50px" }}
-                    />
-                  </TableLoadingIconWrapper>
-                </tr>
+                <TableSpinner colSpan={4} />
               :
                 journeyList.map(journey => {                  
                     return (

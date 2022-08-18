@@ -1,5 +1,6 @@
 import { styled as MUIstyled, TableCell } from "@mui/material";
 import styled from "styled-components";
+import { parseHexColorToRGBA } from "../common/functions";
 
 export const CustomTableCell = MUIstyled(TableCell)`
   top: 57;
@@ -7,7 +8,8 @@ export const CustomTableCell = MUIstyled(TableCell)`
   height: 100%;
   font-size: 1em;
   &.active {
-    background-color: ${({theme}) => theme.palette.secondary.light};
+    background-color: ${({theme}) =>
+      parseHexColorToRGBA(theme.palette.secondary.light,0.4)};
     font-weight: bold;
     color: ${({theme}) => theme.palette.secondary.dark};
   }
@@ -17,6 +19,5 @@ export const CustomTableCell = MUIstyled(TableCell)`
 `;
 
 export const ColumnTitleWrapper = styled.div`
-  opacity: 1;
   display: flex;
 `;

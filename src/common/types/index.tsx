@@ -124,3 +124,9 @@ export type TableCellTitleProps = {
   sorting: ColumnOrder,
   handleClick: (columnText:string) => void
 }
+
+export type TableTitlesProps = {
+  titles: string[],
+  sorting: ColumnOrder,
+  handleClick: (columnText:string) => void
+}
