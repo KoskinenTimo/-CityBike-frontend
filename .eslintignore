@@ -1,3 +1,5 @@
 public
 cypress
 build
+
+cypress.config.js

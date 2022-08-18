@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -50,7 +49,7 @@ const Stations = () => {
     isLoading
   } = useQuery(
     ["stations"],
-    () => getStations(queryParams),
+    ({ signal }) => getStations(queryParams, signal),
     { enabled: false }
   );
 

@@ -6,7 +6,8 @@ export const getStations = async ({
     page,
     stationsPerPage,
     filter,
-  }: GetStationsProps
+  }: GetStationsProps,
+  signal: AbortSignal | undefined
 ): Promise<StationsResponsePage> => { 
 
   return await bikeAppApiClient.get(
@@ -16,7 +17,8 @@ export const getStations = async ({
         ...(page ? { page } : []),
         ...(stationsPerPage ? { stationsPerPage } : []),
         ...(filter ? { filter } : [])
-      }
+      },
+      signal
     })
     .then(res => res.data);
 };
