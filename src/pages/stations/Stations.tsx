@@ -84,7 +84,7 @@ const Stations = () => {
       />
       <Paper sx={{ width: '100%' }}>
         <TableContainer style={{ height: "60vh"}}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table" style={{ tableLayout: "fixed" }}>
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={3}>

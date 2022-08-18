@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 
 
-export const TableLoadingIconWrapper = styled.div`
+export const TableLoadingIconWrapper = styled.td`
   width: 100%;
   text-align: center;
-  padding: 2em;
+  padding: 0;
 `;

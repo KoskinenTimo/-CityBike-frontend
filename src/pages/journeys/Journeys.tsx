@@ -137,8 +137,8 @@ const Journeys = () => {
     if(!isAlreadySortingColumn) {
       setSorting({ order: Order.Ascending, columnName: columnText });
     }
-  };  
-
+  };
+  
   return (
     <>
       <Typography
@@ -161,66 +161,71 @@ const Journeys = () => {
       }
 
       <Paper sx={{ width: '100%' }}>
-        <TableContainer style={{ maxHeight: "60vh"}}>
-          {isLoading 
-            ?
-            <TableLoadingIconWrapper>
-              <LoadingIcon style={{ margin: "auto" }} size={{ height: "50px", width: "50px" }}/>
-            </TableLoadingIconWrapper>
-            :
-          
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
+        <TableContainer style={{ height: "60vh"}}>
+          <Table stickyHeader aria-label="sticky table" style={{ tableLayout: "fixed" }}>
+            <TableHead>
               <TableRow>
-                  <TableCell align="center" colSpan={2}>
-                    Stations
-                  </TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    Details
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCellTitle
-                    text={JourneyTableTitles.DepartureStation}
-                    sorting={sorting}
-                    handleClick={handleColumnTitleClick}
-                  />
-                  <TableCellTitle
-                    text={JourneyTableTitles.ReturnStation}
-                    sorting={sorting}
-                    handleClick={handleColumnTitleClick}
-                  />
-                  <TableCellTitle
-                    text={JourneyTableTitles.Duration}
-                    sorting={sorting}
-                    handleClick={handleColumnTitleClick}
-                  />
-                  <TableCellTitle
-                    text={JourneyTableTitles.Distance}
-                    sorting={sorting}
-                    handleClick={handleColumnTitleClick}
-                  />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(!isLoading && Boolean(journeyList.length)) &&
-                  journeyList.map(journey => {                  
-                        return (
-                          <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
-                            <TableCellValue text={journey.departureStationId?.name} />
-                            <TableCellValue text={journey.returnStationId?.name} />
-                            <TableCellValue text={Number(journey.duration / 60).toFixed(2)} />
-                            <TableCellValue text={journey.distance / 1000} />
-                          </TableRow>
-                        );
-                    })}
-                {(!isLoading && !isFetching && !journeyList.length) &&
-                  <TableRow hover role="checkbox" tabIndex={1}>
-                    <TableCellValue text={"No Results"} />
-                  </TableRow>}
-              </TableBody>
-            </Table>
-          }
+                <TableCell align="center" colSpan={2}>
+                  Stations
+                </TableCell>
+                <TableCell align="center" colSpan={2}>
+                  Details
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCellTitle
+                  text={JourneyTableTitles.DepartureStation}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={JourneyTableTitles.ReturnStation}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={JourneyTableTitles.Duration}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+                <TableCellTitle
+                  text={JourneyTableTitles.Distance}
+                  sorting={sorting}
+                  handleClick={handleColumnTitleClick}
+                />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {isLoading 
+              ?
+                <tr>
+                  <TableLoadingIconWrapper colSpan={4}>
+                    <LoadingIcon
+                      style={{ position: "absolute", top: "50%" }}
+                      size={{ height: "50px", width: "50px" }}
+                    />
+                  </TableLoadingIconWrapper>
+                </tr>
+              :
+                journeyList.map(journey => {                  
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
+                        <TableCellValue text={journey.departureStationId?.name} />
+                        <TableCellValue text={journey.returnStationId?.name} />
+                        <TableCellValue text={Number(journey.duration / 60).toFixed(2)} />
+                        <TableCellValue text={journey.distance / 1000} />
+                      </TableRow>
+                    );
+                  }
+                )
+              }
+              {(!isLoading && !isFetching && !journeyList.length) &&
+                <TableRow hover role="checkbox" tabIndex={1}>
+                  <TableCellValue text={"No Results"} />
+                </TableRow>}
+            </TableBody>
+          </Table>
+        
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[20, 40, 60]}
