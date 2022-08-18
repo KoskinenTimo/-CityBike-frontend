@@ -15,6 +15,7 @@ export const LoadingIcon = ({ size,style }: IconProps) =>
     height={size.height}
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    data-icon="loading"
   >
     <path
       fill="#555"
@@ -35,6 +36,7 @@ export const BicycleIcon = ({ size, style }: IconProps) =>
     y="0px"
     viewBox="0 0 294.958 294.958"
     xmlSpace="preserve"
+    data-icon="bicycle"
   >
     <path 
       style={{ fill:"none", stroke:"#000000", strokeWidth:"15", strokeLinecap:"round", strokeLinejoin:"round", strokeMiterlimit:"10", ...style }}
@@ -104,6 +106,7 @@ export const ChevronUpIcon = ({ size,style }: IconProps) =>
     viewBox="0 0 18 18" 
     xmlns="http://www.w3.org/2000/svg"
     style={{ ...style }}
+    data-icon="chevronUp"
   >
     <path
       fill={style.color}
@@ -119,6 +122,7 @@ export const ChevronDownIcon = ({ size,style }: IconProps) =>
     viewBox="0 0 18 18"
     xmlns="http://www.w3.org/2000/svg"
     style={{ ...style }}
+    data-icon="chevronDown"
   >
     <path
       fill={style.color}
