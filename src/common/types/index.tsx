@@ -89,6 +89,12 @@ export type GetJourneyProps = {
   returnStationId: number | null
 }
 
+export type GetStationsProps = {
+  page: Page,
+  stationsPerPage: Rows,
+  filter: Filter
+}
+
 export enum Order {
   Ascending = "ascending",
   Descending = "descending"
@@ -122,11 +128,11 @@ export enum StationTableTitles {
 export type TableCellTitleProps = {
   text: string,
   sorting: ColumnOrder,
-  handleClick: (columnText:string) => void
+  setSorting: React.Dispatch<React.SetStateAction<ColumnOrder>>
 }
 
 export type TableTitlesProps = {
   titles: string[],
   sorting: ColumnOrder,
-  handleClick: (columnText:string) => void
+  setSorting: React.Dispatch<React.SetStateAction<ColumnOrder>>
 }

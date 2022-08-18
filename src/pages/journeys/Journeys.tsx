@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  Paper,
-  Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
@@ -22,10 +19,10 @@ import {
 import { LoadingIcon } from "../../common/icons";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
-import { StationsTextField } from "../stations/Stations.styles";
 import { compareNumbers, compareStrings } from "../../common/functions";
 import { TableTitles } from "../../components/TableTitles";
 import { TableSpinner } from "../../components/TableSpinner";
+import { CustomPaper, CustomTable, CustomTableContainer, ListFilterField } from "../../common/styles";
 
 export type JourneysPageFetchParams = {
   page: number | null,
@@ -39,7 +36,7 @@ const Journeys = () => {
     columnName: JourneyTableTitles.DepartureStation,
     order: Order.Ascending
   });
-  const [queryParams,setQueryParams] = useState({
+  const [ queryParams, setQueryParams ] = useState({
     page: 0,
     journeysPerPage: 20,
     filter: "",
@@ -48,7 +45,7 @@ const Journeys = () => {
   } as GetJourneyProps);  
 
   useEffect(() => {
-    window.document.title = "Stations";
+    window.document.title = "Journeys";
   }, []);
 
   const {
@@ -56,10 +53,9 @@ const Journeys = () => {
     refetch:fetchJourneys,
     isLoading, isFetching
   } = useQuery(
-    ["journeys",queryParams], ({ signal }) =>  getJourneys(queryParams, signal),
-    {
-      enabled: false,
-    }
+    ["journeys"],
+    ({ signal }) =>  getJourneys(queryParams, signal),
+    { enabled: false, }
   );
 
   useEffect(() => {
@@ -69,7 +65,7 @@ const Journeys = () => {
     } else {
       const journeys = journeysPage.content;
       const sortedJourneys = handleSortingJourneysByChosenColumn(journeys);
-      setJourneyList(() => ([...sortedJourneys]));
+      setJourneyList(() => ([ ...sortedJourneys ]));
     }
   },[journeysPage,sorting]);
 
@@ -125,22 +121,6 @@ const Journeys = () => {
     return journeys;
   };
   
-  const handleColumnTitleClick = (columnText:string) => {
-    const isAlreadySortingColumn = sorting.columnName === columnText;
-    const isAscendingOrder = sorting.order === Order.Ascending;
-    const isDescendingOrder = sorting.order === Order.Descending;
-
-    if(isAlreadySortingColumn && isAscendingOrder) {
-      setSorting(prevState => ({ ...prevState, order: Order.Descending }));
-    }
-    if(isAlreadySortingColumn && isDescendingOrder) {
-      setSorting(prevState => ({ ...prevState, order: Order.Ascending }));
-    }
-    if(!isAlreadySortingColumn) {
-      setSorting({ order: Order.Ascending, columnName: columnText });
-    }
-  };
-  
   return (
     <>
       <Typography
@@ -150,21 +130,20 @@ const Journeys = () => {
       >
         Journeys page
       </Typography>
-      <StationsTextField
+      <ListFilterField
         id="station-name"
         label="Depature station"
         variant="outlined"
         onChange={handleFilterInput} value={queryParams.filter}
         color={"secondary"}
-        style={{ marginBottom: "1em" }}    
       />
       {(isFetching && !!queryParams.filter?.length) &&
         <LoadingIcon style={{ padding: ".8em" }} size={{ height: "30px", width: "30px"}}/>
       }
 
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer style={{ height: "60vh"}}>
-          <Table stickyHeader aria-label="sticky table" style={{ tableLayout: "fixed" }}>
+      <CustomPaper>
+        <CustomTableContainer>
+          <CustomTable stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={2}>
@@ -176,7 +155,7 @@ const Journeys = () => {
               </TableRow>
               <TableTitles
                 titles={Object.values(JourneyTableTitles)}
-                handleClick={handleColumnTitleClick}
+                setSorting={setSorting}
                 sorting={sorting} 
               />
             </TableHead>
@@ -190,8 +169,8 @@ const Journeys = () => {
                       <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
                         <TableCellValue text={journey.departureStationId?.name} />
                         <TableCellValue text={journey.returnStationId?.name} />
-                        <TableCellValue text={Number(journey.duration / 60).toFixed(2)} />
-                        <TableCellValue text={journey.distance / 1000} />
+                        <TableCellValue text={(journey.duration / 60).toFixed(2)} />
+                        <TableCellValue text={(journey.distance / 1000).toFixed(3)} />
                       </TableRow>
                     );
                   }
@@ -202,18 +181,24 @@ const Journeys = () => {
                   <TableCellValue text={"No Results"} />
                 </TableRow>}
             </TableBody>
-          </Table>
+          </CustomTable>
         
-        </TableContainer>
+        </CustomTableContainer>
         <TablePagination
           rowsPerPageOptions={[20, 40, 60]}
           component="div"
           count={journeysPage?.totalElements ? journeysPage?.totalElements : 0}
           rowsPerPage={queryParams.journeysPerPage ? queryParams.journeysPerPage : 0}
-          page={(queryParams.page && !!journeysPage?.totalElements && journeysPage?.totalElements > 0) ? queryParams.page : 0}
+          page={
+            (
+              queryParams.page &&
+              !!journeysPage?.totalElements &&
+              journeysPage?.totalElements > 0
+            ) 
+            ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
-      </Paper>
+      </CustomPaper>
     </>
   );
 };

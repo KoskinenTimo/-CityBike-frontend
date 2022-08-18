@@ -3,14 +3,14 @@ import { bikeAppApiClient } from "./bikeAppApiClient";
 
 
 export const getJourneys = ({
-  page,
-  journeysPerPage,
-  filter,
-  departureStationId=null,
-  returnStationId=null
+    page,
+    journeysPerPage,
+    filter,
+    departureStationId=null,
+    returnStationId=null
   }: GetJourneyProps,
   signal: AbortSignal | undefined
-  ): Promise<JourneysResponsePage> => {  
+): Promise<JourneysResponsePage> => {  
     
     return bikeAppApiClient.get(
       '/journeys',

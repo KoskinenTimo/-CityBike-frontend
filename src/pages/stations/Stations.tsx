@@ -1,71 +1,121 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography
+} from "@mui/material";
+
 import {
   ColumnOrder,
-  Filter,
-  JourneyTableTitles,
+  GetStationsProps,
   Order,
-  Page,
-  Rows,
-  StationsResponsePage,
+  Station,
   StationTableTitles
 } from "../../common/types";
 import { getStations } from "../../services/stationsService";
-import { StationsTextField } from "./Stations.styles";
 import { TableCellValue } from "../../components/TableCellValue";
-import { TableCellTitle } from "../../components/TableCellTitle";
-import { useNavigate } from "react-router-dom";
+import { TableTitles } from "../../components/TableTitles";
+import { TableSpinner } from "../../components/TableSpinner";
+import { compareNumbers, compareStrings } from "../../common/functions";
+import { CustomPaper, CustomTable, CustomTableContainer, ListFilterField } from "../../common/styles";
 
 const Stations = () => {
-  const [stationsPage, setStationsPage] = useState({} as StationsResponsePage);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filter, setFilter] = useState('');
+  const [ stationsList, setStationsList ] = useState<Station[]>([]);
+  const [queryParams, setQueryParams] = useState({
+    page: 0,
+    stationsPerPage: 20,
+    filter: "",
+  } as GetStationsProps);
   const [ sorting, setSorting ] = useState<ColumnOrder>({
-    columnName: JourneyTableTitles.DepartureStation,
+    columnName: StationTableTitles.Nimi,
     order: Order.Ascending
   });
+
   const navigate = useNavigate();
 
   useEffect(() => {
     window.document.title = "Stations";
   }, []);
-  
-  useEffect(() => {
-    fetchStations(page,rowsPerPage,filter);
-  },[page,rowsPerPage,filter]);
 
-  const fetchStations = async (
-    page: Page = null,
-    rowsPerPage: Rows = null,
-    filter: Filter = null
-    ) => {
-      try {
-        const res = await getStations(page,rowsPerPage,filter);
-        setStationsPage(res);
-      } catch (error) {
-        console.error(error);
-      }  
-  };
+  const {
+    data: stationsPage,
+    refetch:fetchStations,
+    isLoading
+  } = useQuery(
+    ["stations"],
+    () => getStations(queryParams),
+    { enabled: false }
+  );
+
+  useEffect(() => {
+    if (!stationsPage?.content?.length) {
+      const emptyArray = [] as Station[];
+      setStationsList(emptyArray);
+    } else {
+      const stations = stationsPage.content;
+      const sortedStations = handleSortingStationsByChosenColumn(stations);
+      setStationsList(() => ([ ...sortedStations ]));
+    }
+  },[stationsPage,sorting]);
+
+  useEffect(() => {
+    fetchStations();
+  },[queryParams]);
+
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+    setQueryParams(prevState => ({ ...prevState, page: newPage }));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    setQueryParams(prevState => ({ ...prevState, stationsPerPage: +event.target.value }));
   };
 
   const handleFilterInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter(event.target.value);
+    setQueryParams(prevState => ({ ...prevState, page: 0, filter: event.target.value }));
   };
 
-  const handleColumnTitleClick = (columnText:string) => {
-    console.log("test");
-    
-    
-  }
+  const handleSortingStationsByChosenColumn = (stations: Station[]): Station[] => {
+    if (sorting.columnName === StationTableTitles.Nimi) {
+      stations.sort((a,b) => {
+        return compareStrings(a.nimi, b.nimi, sorting.order);
+      });
+    }
+    if (sorting.columnName === StationTableTitles.Namn) {
+      stations.sort((a,b) => {
+        return compareStrings(a.namn, b.namn, sorting.order);
+      });
+    }
+    if (sorting.columnName === StationTableTitles.Name) {
+      stations.sort((a,b) => {
+        return compareStrings(a.name, b.name, sorting.order);
+      });
+    }
+    if (sorting.columnName === StationTableTitles.Osoite) {
+      stations.sort((a,b) => {
+        return compareStrings(a.osoite, b.osoite, sorting.order);
+      });
+    }
+    if (sorting.columnName === StationTableTitles.Adress) {
+      stations.sort((a,b) => {
+        return compareStrings(a.adress, b.adress, sorting.order);
+      });
+    }
+    if (sorting.columnName === StationTableTitles.Capacity) {
+      stations.sort((a,b) => {
+        return compareNumbers(a.kapasiteetit, b.kapasiteetit, sorting.order);
+      });
+    }
+    return stations;
+  };
+
   return (
     <>
       <Typography 
@@ -75,16 +125,16 @@ const Stations = () => {
       >
         Stations page
       </Typography>
-      <StationsTextField
+      <ListFilterField
         id="station-name"
         label="Name"
         variant="outlined"
-        onChange={handleFilterInput} value={filter}
+        onChange={handleFilterInput} value={queryParams.filter}
         color={"secondary"}      
       />
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer style={{ height: "60vh"}}>
-          <Table stickyHeader aria-label="sticky table" style={{ tableLayout: "fixed" }}>
+      <CustomPaper>
+        <CustomTableContainer>
+          <CustomTable stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell align="center" colSpan={3}>
@@ -94,67 +144,54 @@ const Stations = () => {
                   Details
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCellTitle
-                  text={StationTableTitles.Nimi}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={StationTableTitles.Namn}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={StationTableTitles.Name}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={StationTableTitles.Osoite}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={StationTableTitles.Adress}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-                <TableCellTitle
-                  text={StationTableTitles.Capacity}
-                  sorting={sorting}
-                  handleClick={handleColumnTitleClick}
-                />
-              </TableRow>
+              <TableTitles
+                titles={Object.values(StationTableTitles)}
+                setSorting={setSorting}
+                sorting={sorting} 
+              />
             </TableHead>
             <TableBody>
-              {(stationsPage.content && stationsPage.content.length) && stationsPage.content
-                .map(station => {
-                  return (
-                    
-                      <TableRow hover onClick={() => navigate(`/stations/${station.identifier}`)} role="checkbox" tabIndex={1} key={station.id}>
-                        <TableCellValue text={station.nimi}/>
-                        <TableCellValue text={station.namn} />
-                        <TableCellValue text={station.name} />
-                        <TableCellValue text={station.osoite} />
-                        <TableCellValue text={station.adress} />
-                        <TableCellValue text={station.kapasiteetit} />
-                      </TableRow>
-                    
-                  );
-                })}
+              {isLoading
+              ?
+                <TableSpinner colSpan={6} />
+              :
+                stationsList
+                  .map(station => (
+                    <TableRow 
+                      hover
+                      onClick={() => navigate(`/stations/${station.identifier}`)}
+                      role="checkbox" tabIndex={1}
+                      key={station.id}
+                    >
+                      <TableCellValue text={station.nimi}/>
+                      <TableCellValue text={station.namn} />
+                      <TableCellValue text={station.name} />
+                      <TableCellValue text={station.osoite} />
+                      <TableCellValue text={station.adress} />
+                      <TableCellValue text={station.kapasiteetit} />
+                    </TableRow>
+                  )
+                )
+              }
             </TableBody>
-          </Table>
-        </TableContainer>
+          </CustomTable>
+        </CustomTableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 20, 30]}
           component="div"
-          count={stationsPage.totalElements ? stationsPage.totalElements : 0}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          count={stationsPage?.totalElements ? stationsPage.totalElements : 0}
+          rowsPerPage={queryParams.stationsPerPage ? queryParams.stationsPerPage : 0}
+          page={
+            (
+              queryParams.page &&
+              !!stationsPage?.totalElements &&
+              stationsPage?.totalElements > 0
+            ) 
+            ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
-      </Paper></>
+      </CustomPaper>
+    </>
   );
 };
 

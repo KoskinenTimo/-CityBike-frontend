@@ -4,14 +4,14 @@ import { TableTitlesProps } from '../common/types';
 import { TableCellTitle } from './TableCellTitle';
 
 
-export const TableTitles = ({ titles=[],sorting,handleClick }: TableTitlesProps) => (
+export const TableTitles = ({ titles=[],sorting,setSorting }: TableTitlesProps) => (
   <TableRow>
     {titles.map(title => (
       <TableCellTitle
         key={title}
         text={title}
         sorting={sorting}
-        handleClick={handleClick} />
+        setSorting={setSorting} />
     ))}
   </TableRow>
 );
