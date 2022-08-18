@@ -1,13 +1,15 @@
-import { Filter, Page, Rows, Station, StationsResponsePage } from "../common/types";
 import { bikeAppApiClient } from "./bikeAppApiClient";
+import { GetStationsProps, Station, StationsResponsePage } from "../common/types";
 
 
-export const getStations = async (
-  page: Page = null,
-  stationsPerPage: Rows = null,
-  filter: Filter = null
-  ) => {    
-  return await bikeAppApiClient.get<StationsResponsePage>(
+export const getStations = async ({
+    page,
+    stationsPerPage,
+    filter,
+  }: GetStationsProps
+): Promise<StationsResponsePage> => { 
+
+  return await bikeAppApiClient.get(
     '/stations',
     { 
       params: {
@@ -16,8 +18,7 @@ export const getStations = async (
         ...(filter ? { filter } : [])
       }
     })
-    .then(res => res.data)
-    .catch(err => err);
+    .then(res => res.data);
 };
 
 export const getOneStation = async (id: number) => {    

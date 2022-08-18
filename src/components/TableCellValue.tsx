@@ -1,10 +1,10 @@
 import React from "react";
 import { TableCell } from "@mui/material";
-import { TableCellProps } from "../common/types";
+import { TableCellValueProps } from "../common/types";
 
 
-export const TableCellValue = ({ text }: TableCellProps) => (
-  <TableCell align={"right"}>
+export const TableCellValue = ({ text }: TableCellValueProps) => (
+  <TableCell align={"left"}>
     {text}
   </TableCell>
 );

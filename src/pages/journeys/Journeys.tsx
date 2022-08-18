@@ -1,18 +1,28 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { LoadingIcon } from "../../common/icons";
+import { useQuery } from "@tanstack/react-query";
+
 import {
-  FilterParam,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography 
+} from "@mui/material";
+import {
   GetJourneyProps,
-  JourneysPerPageParam,
-  PageParam,
+  Journey,
+  ColumnOrder,
+  Order,
+  JourneyTableTitles
 } from "../../common/types";
-import { TableCellTitle } from "../../components/TableCellTitle";
+import { LoadingIcon } from "../../common/icons";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
-import { StationsTextField } from "../stations/Stations.styles";
-import { TableLoadingIconWrapper } from "./Journeys.styles";
+import { compareNumbers, compareStrings } from "../../common/functions";
+import { TableTitles } from "../../components/TableTitles";
+import { TableSpinner } from "../../components/TableSpinner";
+import { CustomPaper, CustomTable, CustomTableContainer, ListFilterField } from "../../common/styles";
 
 export type JourneysPageFetchParams = {
   page: number | null,
@@ -20,10 +30,13 @@ export type JourneysPageFetchParams = {
   filter: string | null
 }
 
-export type JourneyFilterParams = PageParam | JourneysPerPageParam | FilterParam;
-
 const Journeys = () => {
-  const [queryParams,setQueryParams] = useState({
+  const [ journeyList, setJourneyList ] = useState<Journey[]>([]);
+  const [ sorting, setSorting ] = useState<ColumnOrder>({
+    columnName: JourneyTableTitles.DepartureStation,
+    order: Order.Ascending
+  });
+  const [ queryParams, setQueryParams ] = useState({
     page: 0,
     journeysPerPage: 20,
     filter: "",
@@ -32,20 +45,29 @@ const Journeys = () => {
   } as GetJourneyProps);  
 
   useEffect(() => {
-    window.document.title = "Stations";
+    window.document.title = "Journeys";
   }, []);
-
 
   const {
     data:journeysPage,
     refetch:fetchJourneys,
     isLoading, isFetching
   } = useQuery(
-    ["journeys",queryParams], ({ signal }) =>  getJourneys(queryParams, signal),
-    {
-      enabled: false,
-    }
+    ["journeys"],
+    ({ signal }) =>  getJourneys(queryParams, signal),
+    { enabled: false, }
   );
+
+  useEffect(() => {
+    if (!journeysPage?.content?.length) {
+      const emptyArray = [] as Journey[];
+      setJourneyList(emptyArray);
+    } else {
+      const journeys = journeysPage.content;
+      const sortedJourneys = handleSortingJourneysByChosenColumn(journeys);
+      setJourneyList(() => ([ ...sortedJourneys ]));
+    }
+  },[journeysPage,sorting]);
 
   useEffect(() => {  
     fetchJourneys();  
@@ -63,6 +85,42 @@ const Journeys = () => {
     setQueryParams(prevState => ({ ...prevState, page: 0, filter: event.target.value }));
   };
 
+  const handleSortingJourneysByChosenColumn = (journeys: Journey[]): Journey[] => {
+    if (sorting.columnName === JourneyTableTitles.DepartureStation) {
+      journeys.sort((a,b) => {
+        return compareStrings(
+          a.departureStationId.name,
+          b.departureStationId.name,
+          sorting.order);
+      });
+    }
+    if (sorting.columnName === JourneyTableTitles.ReturnStation) {
+      journeys.sort((a,b) => {
+        return compareStrings(
+          a.returnStationId.name,
+          b.returnStationId.name,
+          sorting.order);
+      });
+    }
+    if (sorting.columnName === JourneyTableTitles.Duration) {
+      journeys.sort((a,b) => {
+        return compareNumbers(
+          a.duration,
+          b.duration,
+          sorting.order);
+      });
+    }
+    if (sorting.columnName === JourneyTableTitles.Distance) {
+      journeys.sort((a,b) => {
+        return compareNumbers(
+          a.distance,
+          b.distance,
+          sorting.order);
+      });
+    }
+    return journeys;
+  };
+  
   return (
     <>
       <Typography
@@ -72,73 +130,75 @@ const Journeys = () => {
       >
         Journeys page
       </Typography>
-      <StationsTextField
+      <ListFilterField
         id="station-name"
         label="Depature station"
         variant="outlined"
         onChange={handleFilterInput} value={queryParams.filter}
         color={"secondary"}
-        style={{ marginBottom: "1em" }}    
       />
       {(isFetching && !!queryParams.filter?.length) &&
         <LoadingIcon style={{ padding: ".8em" }} size={{ height: "30px", width: "30px"}}/>
       }
 
-      <Paper sx={{ width: '100%' }}>
-        <TableContainer style={{ maxHeight: "60vh"}}>
-          {isLoading 
-            ?
-            <TableLoadingIconWrapper>
-              <LoadingIcon style={{ margin: "auto" }} size={{ height: "50px", width: "50px" }}/>
-            </TableLoadingIconWrapper>
-            :
-          
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
+      <CustomPaper>
+        <CustomTableContainer>
+          <CustomTable stickyHeader aria-label="sticky table">
+            <TableHead>
               <TableRow>
-                  <TableCell align="center" colSpan={2}>
-                    Stations
-                  </TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    Details
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCellTitle text={"Departure station"} />
-                  <TableCellTitle text={"Return station"} />
-                  <TableCellTitle text={"Duration (min)"} />
-                  <TableCellTitle text={"Distance (km)"} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(!isLoading && journeysPage?.content?.length) &&
-                  journeysPage?.content.map(journey => {                  
-                        return (
-                          <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
-                            <TableCellValue text={journey.departureStationId?.name} />
-                            <TableCellValue text={journey.returnStationId?.name} />
-                            <TableCellValue text={Number(journey.duration / 60).toFixed(2)} />
-                            <TableCellValue text={journey.distance / 1000} />
-                          </TableRow>
-                        );
-                    })}
-                {(!isLoading && !isFetching && !journeysPage?.content?.length) &&
-                  <TableRow hover role="checkbox" tabIndex={1}>
-                    <TableCellValue text={"No Results"} />
-                  </TableRow>}
-              </TableBody>
-            </Table>
-          }
-        </TableContainer>
+                <TableCell align="center" colSpan={2}>
+                  Stations
+                </TableCell>
+                <TableCell align="center" colSpan={2}>
+                  Details
+                </TableCell>
+              </TableRow>
+              <TableTitles
+                titles={Object.values(JourneyTableTitles)}
+                setSorting={setSorting}
+                sorting={sorting} 
+              />
+            </TableHead>
+            <TableBody>
+              {isLoading 
+              ?
+                <TableSpinner colSpan={4} />
+              :
+                journeyList.map(journey => {                  
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
+                        <TableCellValue text={journey.departureStationId?.name} />
+                        <TableCellValue text={journey.returnStationId?.name} />
+                        <TableCellValue text={(journey.duration / 60).toFixed(2)} />
+                        <TableCellValue text={(journey.distance / 1000).toFixed(3)} />
+                      </TableRow>
+                    );
+                  }
+                )
+              }
+              {(!isLoading && !isFetching && !journeyList.length) &&
+                <TableRow hover role="checkbox" tabIndex={1}>
+                  <TableCellValue text={"No Results"} />
+                </TableRow>}
+            </TableBody>
+          </CustomTable>
+        
+        </CustomTableContainer>
         <TablePagination
           rowsPerPageOptions={[20, 40, 60]}
           component="div"
           count={journeysPage?.totalElements ? journeysPage?.totalElements : 0}
           rowsPerPage={queryParams.journeysPerPage ? queryParams.journeysPerPage : 0}
-          page={(queryParams.page && !!journeysPage?.totalElements && journeysPage?.totalElements > 0) ? queryParams.page : 0}
+          page={
+            (
+              queryParams.page &&
+              !!journeysPage?.totalElements &&
+              journeysPage?.totalElements > 0
+            ) 
+            ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
-      </Paper>
+      </CustomPaper>
     </>
   );
 };

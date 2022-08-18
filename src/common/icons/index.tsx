@@ -97,3 +97,33 @@ export const BicycleIcon = ({ size, style }: IconProps) =>
     </g>
   </svg>;
 
+export const ChevronUpIcon = ({ size,style }: IconProps) => 
+  <svg 
+    width={size.width}
+    height={size.height}
+    viewBox="0 0 18 18" 
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ ...style }}
+  >
+    <path
+      fill={style.color}
+      d="M2.49 10.39L8 5.38A1.524 1.524 0 0 1 9 5a1.474 1.474 0 0 1 1 .38l5.51 5.01a1.5 1.5 0 0 1-2.02 2.22L9 8.53l-4.49 4.08a1.5 1.5 0 0 1-2.02-2.22z"
+
+    />
+  </svg>;
+
+export const ChevronDownIcon = ({ size,style }: IconProps) => 
+  <svg
+    width={size.width}
+    height={size.height}
+    viewBox="0 0 18 18"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ ...style }}
+  >
+    <path
+      fill={style.color}
+      d="M2.39 6.49a1.5 1.5 0 0 1 2.12-.1L9 10.47l4.49-4.08a1.5 1.5 0 0 1 2.02 2.22L10 13.62A1.474 1.474 0 0 1 9 14a1.523 1.523 0 0 1-1-.38L2.49 8.61a1.5 1.5 0 0 1-.1-2.12z"
+    />
+  </svg>;
+
+
