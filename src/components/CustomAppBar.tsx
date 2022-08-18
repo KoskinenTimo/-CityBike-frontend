@@ -1,40 +1,33 @@
 import { useTheme } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BicycleIcon } from "../common/icons";
 import { CustomAppBarButton } from "./CustomAppBar.styles";
 import { MUIAppBar } from "./MUIAppBar";
 
 
 const CustomAppBar = () => {
-  const styles = useTheme();
+  const theme = useTheme();
+  const navigate = useNavigate();
+
   return (
     <MUIAppBar>
-      <BicycleIcon size={{ width:"40px", height:"40px" }} style={{ color: styles.palette.secondary.dark }} />
-      <Link to={"/"} style={{ textDecoration: "none" }}>
-        <CustomAppBarButton
-          sx={{ my: 2 }}
-          theme={styles}
+      <BicycleIcon size={{ width:"40px", height:"40px" }} style={{ color: theme.palette.secondary.dark }}/>
+        <CustomAppBarButton 
+          onClick={() => navigate("/")}
         >
           Home
         </CustomAppBarButton>
-      </Link>
-      <Link to={"/stations"} style={{ textDecoration: "none" }}>
-        <CustomAppBarButton
-          sx={{ my: 2 }}
-          theme={styles}
+        <CustomAppBarButton 
+          onClick={() => navigate("/stations")}
         >
           Stations
         </CustomAppBarButton>
-      </Link>
-      <Link to={"/journeys"} style={{ textDecoration: "none" }}>
         <CustomAppBarButton
-          sx={{ my: 2 }}
-          theme={styles}
+          onClick={() => navigate("/journeys")}
         >
           Journeys
         </CustomAppBarButton>
-      </Link>
     </MUIAppBar>
 
   );

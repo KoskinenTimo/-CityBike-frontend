@@ -30,8 +30,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --fix",
-    "e2e:run": "npx cypress run",
-    "e2e:open": "npx cypress open"
+    "cypress:run": "npx cypress run",
+    "cypress:open": "npx cypress open"
   },
   "eslintConfig": {
     "extends": [
