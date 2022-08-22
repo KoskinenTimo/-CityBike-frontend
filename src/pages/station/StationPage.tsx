@@ -73,8 +73,8 @@ const StationPage = () => {
       <Grid container rowGap={2} columnGap={1}   style={{backgroundColor:"#fafafa", padding: ".7em"}}>
         <CustomStationGrid text={`Address: ${station.osoite}`} />
         <CustomStationGrid text={`Adress: ${station.adress}`} />
-        <CustomStationGrid text={`Departs here: ${departsPage ? departsPage.totalElements : ''}`} />
-        <CustomStationGrid text={`Returns here: ${returnsPage ? returnsPage.totalElements : ''}`} />
+        {/* <CustomStationGrid text={`Departs here: ${departsPage ? departsPage.totalElements : ''}`} />
+        <CustomStationGrid text={`Returns here: ${returnsPage ? returnsPage.totalElements : ''}`} /> */}
       </Grid>
       <Button color="secondary" onClick={() => navigate("/stations")}>Go Back</Button>
     </StationWrapper>
