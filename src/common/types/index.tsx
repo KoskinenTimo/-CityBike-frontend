@@ -38,8 +38,8 @@ export type Journey = {
   id: number,
   departureTimeStamp: number,
   returnTimestamp: number,
-  departureStationId: Station
-  returnStationId: Station
+  departureStation: Station
+  returnStation: Station
   distance: number,
   duration: number,
   new: boolean
