@@ -63,9 +63,7 @@ const Journeys = () => {
       const emptyArray = [] as Journey[];
       setJourneyList(emptyArray);
     } else {
-      const journeys = journeysPage.content;
-      console.log(journeys);
-      
+      const journeys = journeysPage.content;      
       const sortedJourneys = handleSortingJourneysByChosenColumn(journeys);
       setJourneyList(() => ([ ...sortedJourneys ]));
     }
@@ -189,15 +187,11 @@ const Journeys = () => {
         <TablePagination
           rowsPerPageOptions={[20, 40, 60]}
           component="div"
-          count={journeysPage?.totalElements ? journeysPage?.totalElements : 0}
+          count={-1}
+          backIconButtonProps={ journeysPage?.first ? { "disabled": true } : {} }
+          nextIconButtonProps={ journeysPage?.last ? { "disabled": true } : {} }
           rowsPerPage={queryParams.journeysPerPage ? queryParams.journeysPerPage : 0}
-          page={
-            (
-              queryParams.page &&
-              !!journeysPage?.totalElements &&
-              journeysPage?.totalElements > 0
-            ) 
-            ? queryParams.page : 0}
+          page={queryParams.page ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
 
