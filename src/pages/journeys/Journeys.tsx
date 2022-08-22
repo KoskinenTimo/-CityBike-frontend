@@ -64,6 +64,8 @@ const Journeys = () => {
       setJourneyList(emptyArray);
     } else {
       const journeys = journeysPage.content;
+      console.log(journeys);
+      
       const sortedJourneys = handleSortingJourneysByChosenColumn(journeys);
       setJourneyList(() => ([ ...sortedJourneys ]));
     }
@@ -89,16 +91,16 @@ const Journeys = () => {
     if (sorting.columnName === JourneyTableTitles.DepartureStation) {
       journeys.sort((a,b) => {
         return compareStrings(
-          a.departureStationId.name,
-          b.departureStationId.name,
+          a.departureStation.name,
+          b.departureStation.name,
           sorting.order);
       });
     }
     if (sorting.columnName === JourneyTableTitles.ReturnStation) {
       journeys.sort((a,b) => {
         return compareStrings(
-          a.returnStationId.name,
-          b.returnStationId.name,
+          a.returnStation.name,
+          b.returnStation.name,
           sorting.order);
       });
     }
@@ -167,8 +169,8 @@ const Journeys = () => {
                 journeyList.map(journey => {                  
                     return (
                       <TableRow hover role="checkbox" tabIndex={1} key={journey.id}>
-                        <TableCellValue text={journey.departureStationId?.name} />
-                        <TableCellValue text={journey.returnStationId?.name} />
+                        <TableCellValue text={journey.departureStation?.name} />
+                        <TableCellValue text={journey.returnStation?.name} />
                         <TableCellValue text={(journey.duration / 60).toFixed(2)} />
                         <TableCellValue text={(journey.distance / 1000).toFixed(3)} />
                       </TableRow>
@@ -198,6 +200,7 @@ const Journeys = () => {
             ? queryParams.page : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage} />
+
       </CustomPaper>
     </>
   );
