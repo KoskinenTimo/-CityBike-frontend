@@ -6,10 +6,10 @@ import {
   TextField
 } from "@mui/material";
 
-
 export const ListFilterField = styled(TextField)`
   width: 400px;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+  margin-right: 1.5em;
 `;
 
 export const CustomPaper = styled(Paper)`

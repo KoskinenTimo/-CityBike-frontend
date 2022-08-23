@@ -16,13 +16,14 @@ import {
   Order,
   JourneyTableTitles
 } from "../../common/types";
-import { LoadingIcon } from "../../common/icons";
+import { LoadingIcon, PlusIcon } from "../../common/icons";
 import { TableCellValue } from "../../components/TableCellValue";
 import { getJourneys } from "../../services/journeysService";
 import { compareNumbers, compareStrings } from "../../common/functions";
 import { TableTitles } from "../../components/TableTitles";
 import { TableSpinner } from "../../components/TableSpinner";
 import { CustomPaper, CustomTable, CustomTableContainer, ListFilterField } from "../../common/styles";
+import { OpenFormButton } from "./Journeys.styles";
 
 export type JourneysPageFetchParams = {
   page: number | null,
@@ -38,7 +39,7 @@ const Journeys = () => {
   });
   const [ queryParams, setQueryParams ] = useState({
     page: 0,
-    journeysPerPage: 20,
+    journeysPerPage: 50,
     filter: "",
     departureStationId: null,
     returnStationId: null
@@ -63,7 +64,7 @@ const Journeys = () => {
       const emptyArray = [] as Journey[];
       setJourneyList(emptyArray);
     } else {
-      const journeys = journeysPage.content;      
+      const journeys = journeysPage.content;
       const sortedJourneys = handleSortingJourneysByChosenColumn(journeys);
       setJourneyList(() => ([ ...sortedJourneys ]));
     }
@@ -141,6 +142,18 @@ const Journeys = () => {
         <LoadingIcon style={{ padding: ".8em" }} size={{ height: "30px", width: "30px"}}/>
       }
 
+      <OpenFormButton>
+  
+        <Typography variant="h6" color={"#FFF"}>
+          New Journey 
+        </Typography>
+        <PlusIcon 
+          size={{ width:"25px",height:"25px" }}
+          style={{ color:"#FFF", margin:"10px 10px 10px 25px" }}
+        />
+       
+      </OpenFormButton>
+
       <CustomPaper>
         <CustomTableContainer>
           <CustomTable stickyHeader aria-label="sticky table">
@@ -185,7 +198,7 @@ const Journeys = () => {
         
         </CustomTableContainer>
         <TablePagination
-          rowsPerPageOptions={[20, 40, 60]}
+          rowsPerPageOptions={[50, 100, 150]}
           component="div"
           count={-1}
           backIconButtonProps={ journeysPage?.first ? { "disabled": true } : {} }

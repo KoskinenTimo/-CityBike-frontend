@@ -130,4 +130,55 @@ export const ChevronDownIcon = ({ size,style }: IconProps) =>
     />
   </svg>;
 
+export const PlusIcon = ({ size,style }: IconProps) =>
+  <svg
+    version="1.1"
+    id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    width={size.width}
+    height={size.height}
+    viewBox="0 0 455 455"
+    xmlSpace="preserve"
+    style={{ ...style }}
+  >
+    <polygon
+      points="455,212.5 242.5,212.5 242.5,0 212.5,0 212.5,212.5 0,212.5 0,242.5 212.5,242.5 212.5,455 242.5,455 242.5,242.5 455,242.5"
+      fill={style.color}
+    />
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+    <g>
+    </g>
+  </svg>;
+
+
 

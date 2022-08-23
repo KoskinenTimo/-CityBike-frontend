@@ -3,7 +3,7 @@ import { Button, styled } from "@mui/material";
 
 export const CustomAppBarButton = styled(Button)`
   color: ${({ theme }) => theme.palette.secondary.main};
-  border: 2px solid ${props => props.theme.palette.secondary.dark};
+  border: 2px solid ${({ theme }) => theme.palette.secondary.dark};
   border-radius: 10px;
   width: 200px;
   font-size: 1.7em;
